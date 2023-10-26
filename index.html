@@ -6,6 +6,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+        <!-- Load Telegram Web App JavaScript library -->
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
+        
         {% block styles %}
             <!-- Bootstrap CSS -->
             <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta1/css/bootstrap.min.css" rel="stylesheet">
@@ -40,7 +43,7 @@
                     <div class="card">
                         <img class="card-img-top" src="{{ url_for('uploaded_file', filename=post.image) }}" alt="Post image">
                         <div class="card-body d-flex justify-content-center">
-                            <button class="btn btn-primary">市价买入</button>
+                            <button class="btn btn-primary">市价交易</button>
                         </div>
                     </div>
                 </div>
@@ -52,7 +55,28 @@
         {% block scripts %}
             <!-- Optional JavaScript -->
             {{ bootstrap.load_js() }}
+            <script>
+                // 检查 window.Telegram.WebApp 对象是否存在
+                if (window.Telegram && window.Telegram.WebApp) {
+                    // 获取 initData
+                    var initData = window.Telegram.WebApp.initData;
+                    // 将 initData 发送到服务器进行验证
+                    fetch('/bot/verify_mini_apps?initData=' + encodeURIComponent(initData), {
+                        method: 'GET'
+                    }).then(response => {
+                        if (response.redirected) {
+                            window.location.href = response.url;
+                        }else{
+                            alert('Validation failed');
+                        }
+                    }).catch(error => {
+                        console.error('Error:', error);
+                    });
+                } else {
+                    console.error('Telegram WebApp API is not available');
+                }
+            </script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta1/js/bootstrap.bundle.min.js"></script>
         {% endblock %}
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta1/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
