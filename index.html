@@ -61,7 +61,7 @@
                     // 获取 initData
                     var initData = window.Telegram.WebApp.initData;
                     // 将 initData 发送到服务器进行验证
-                    fetch('/bot/verify_mini_apps?initData=' + encodeURIComponent(initData), {
+                    fetch('https://t.picwe.org/bot/verify_mini_apps?initData=' + encodeURIComponent(initData), {
                         method: 'GET'
                     }).then(response => {
                         if (response.redirected) {
