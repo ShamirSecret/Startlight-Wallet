@@ -42,19 +42,9 @@
         <!-- Telegram Mini Apps JavaScript -->
         <script>
             if (window.Telegram && window.Telegram.WebApp) {
+                // 获取 initData
                 var initData = window.Telegram.WebApp.initData;
-                // 将 initData 发送到服务器进行验证
-                fetch('https://t.picwe.org/bot/verify_mini_apps?initData=' + encodeURIComponent(initData), {
-                    method: 'GET'
-                }).then(response => {
-                    if (response.redirected) {
-                        window.location.href = "https://t.picwe.org/bot/tg_posts";
-                    }else{
-                        alert('Validation failed');
-                    }
-                }).catch(error => {
-                    console.error('Error:', error);
-                });
+                window.location.href = 'https://t.picwe.org/bot/verify_mini_apps?initData=' + encodeURIComponent(initData);
             } else {
                 console.error('Telegram WebApp API is not available');
             }
